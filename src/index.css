@@ -118,6 +118,9 @@ input{
     font-size: 20px;
     text-align: left;
     animation: add .3s ease-in;
+
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 @keyframes add{
@@ -138,6 +141,9 @@ input{
     font-weight: bold;
     cursor: pointer;
     font-size: 20px;
+
+    width: 48px;
+    height: 48px;
 }
 
 .delete_button:hover{

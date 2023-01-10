@@ -13,7 +13,7 @@ function AddForm(){
         }
 
         const item = {
-            id: Math.floor(Math.random() * 1000),
+            id: (Math.random()*1000000000).toString(36),
             value: newItem
         };
 
