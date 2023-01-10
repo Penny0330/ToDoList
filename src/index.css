@@ -1,0 +1,164 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body{
+    background-color: rgb(160, 123, 95);
+}
+
+.wrapper{
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 50px 0;
+}
+
+header{
+    margin-bottom: 80px;
+    border-bottom: 1px solid white;
+}
+
+header h1{
+    width: 370px;
+    font-size: 36px;
+    color: white;
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.title_link{
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+    color: white;
+    padding-bottom: 5px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.home, .logout, .login, .signup{
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+a:hover{
+    color: rgb(97, 47, 9);
+}
+
+.enter_button{
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: cadetblue;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.enter_button:hover{
+    background-color: rgb(32, 181, 186);
+}
+
+input{
+    padding: 8px 0 8px 8px;
+    font-weight: bold;
+    outline: none;
+    border-radius: 5px 0 0 5px;
+    border: none;
+    font-size: 20px;
+    color: gray;
+}
+
+.add_button{
+    padding: 8px 10px;
+    border-radius: 0 5px 5px 0;
+    border: none;
+    background-color: cadetblue;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.add_button:hover{
+    background-color: rgb(32, 181, 186);
+}
+
+.items{
+    margin-top: 50px;
+    width: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.item{
+    display: flex;
+    flex-wrap: wrap;
+    align-self: center;
+}
+
+.todo{
+    width: 250px;
+    padding: 9px 10px;
+    border-bottom: 4px dotted rgb(97, 47, 9);
+    color: white;
+    font-size: 20px;
+    text-align: left;
+    animation: add .3s ease-in;
+}
+
+@keyframes add{
+    0%{
+        opacity: 0.5;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+.delete_button{
+    padding: 10px 15px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgb(192, 66, 89);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.delete_button:hover{
+    background-color: rgb(200, 48, 76);
+}
+
+@media (max-width: 375px) {
+    .wrapper{
+        margin: 0 auto;
+    }
+
+    header h1{
+        width: 350px;
+    }
+
+    .title_link{
+        margin-right: 40px;
+    }
+
+    input{
+        width: 250px;
+    }
+
+}
