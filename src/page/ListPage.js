@@ -16,7 +16,6 @@ function ListPage() {
             </header>
 
             <AddForm />
-
         </div>
     )
 };
