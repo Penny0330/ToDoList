@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300&family=Moon+Dance&family=Noto+Sans+TC&family=Rowdies:wght@300;700&display=swap');
+
 *{
     padding: 0;
     margin: 0;
@@ -51,8 +53,25 @@ a{
     color: white;
 }
 
-a:hover{
+.title_a:hover{
     color: rgb(97, 47, 9);
+}
+
+.active{
+    color: rgb(97, 47, 9);
+}
+
+.welcome{
+    color: rgb(106, 62, 18);
+    font-size: 55px;
+    font-weight: bold;
+    font-style: italic;
+    line-height: 70px;
+    border: 8px dashed rgb(106, 62, 18);
+    padding: 5px 30px 5px 20px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.3);
+    font-family: 'Moon Dance', cursive;
 }
 
 .enter_button{
@@ -167,4 +186,30 @@ input{
         width: 250px;
     }
 
+}
+
+.sigin, .signup{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 15px;
+
+}
+
+.sigin label, .signup label{
+    color: white;
+    font-weight: bold;
+    padding-left: 8px;
+}
+
+.sigin input, .signup input{
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.message{
+    margin-top: 15px;
+    color: white;
+    font-style: italic;
 }

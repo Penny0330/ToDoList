@@ -1,8 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { signOut, onAuthStateChanged } from "firebase/auth";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import AddForm from "../component/AddForm";
+import { auth } from "../firebase/firebase.config";
 
 function ListPage() {
+
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+      onAuthStateChanged(auth, (user) => {
+        if(!user){
+          navigate("/Login");
+        }
+      })
+    }, [])
+
+    const handleLogout = () => {
+        signOut(auth).then(()=>{
+            navigate("/")
+            console.log("Signed out successfully")
+        }).catch((error) => {
+            console.log("An error happened");
+        })
+    };
 
     return(
         <div className="wrapper">
@@ -10,8 +31,7 @@ function ListPage() {
             <header>
                 <h1>My To-Do List</h1>
                 <ul className="title_link">
-                    <li className="home"><Link to="/">Home</Link></li>
-                    <li className="logout">Logout</li>
+                    <li className="logout" onClick={handleLogout}>Logout</li>
                 </ul>
             </header>
 

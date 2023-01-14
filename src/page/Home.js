@@ -1,25 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase/firebase.config';
+import { useNavigate } from 'react-router-dom';
+import Navbar from "../component/Navbar";
+
+
 
 
 function Home(){
+  const navigate = useNavigate();
 
-    return(
-            <div className="wrapper">
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if(user){
+        // const uid = user.uid;
+        // console.log("uid", uid);
+        navigate("/ListPage");
+      }
+    })
+  }, [])
 
-                <header>
-                    <h1>My To-Do List</h1>
-                    <ul className="title_link">
-                        <li className="home">Home</li>
-                        <li className="login">Login</li>
-                        <li className="signup">Signup</li>
-                    </ul>
-                </header>
-
-                <Link to="/ListPage"><button className="enter_button">點此進入</button></Link>
-
-            </div>
-    )
+  return(
+    <div className="wrapper">
+      <Navbar />
+      <div className="welcome">
+        Create
+        <br/>
+        Your
+        <br/>
+        To-Do-List
+      </div>
+    </div>
+  )
 };
 
-export default Home
+export default Home;

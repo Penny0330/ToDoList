@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import List from "./List";
 
 import firebase from "../firebase/firebase.config"
-import { collection, addDoc, getDocs, querySnapshot, deleteDoc, doc} from "firebase/firestore"
+import { collection, addDoc, getDocs, deleteDoc, doc} from "firebase/firestore"
 
 function AddForm(){
     const [newItem, setNewItem] = useState("");
@@ -30,8 +30,11 @@ function AddForm(){
     }
 
     // read
+    useEffect(()=>{
+        fetchPost();
+    }, [])
+    
     const fetchPost = async () => {
-        
         await getDocs(collection(firebase, "todos"))
             .then((querySnapshot)=>{
                 const newData = querySnapshot.docs.map((doc) => ({...doc.data(), id:doc.id}));
@@ -39,16 +42,30 @@ function AddForm(){
             })
     }
 
-    useEffect(()=>{
-        fetchPost();
-    }, [])
-
     // delete
     const deleteItem = async (id) => {
         await deleteDoc(doc(firebase, "todos", id))
         const newArray = items.filter(item => item.id !== id);
         setItems(newArray);
     }
+
+    // const finishItem = async (id) => {
+    //     const newArray = items.map((item) => {
+    //         if(item.id === id){
+    //             console.log(item.id,"/", id, item.status)
+    //             item.status = !item.status
+    //         }
+    //         return item;
+    //     })
+
+    //     await addDoc(collection(firebase, "todos"), {
+    //         id: item.id,
+    //         value: item.value,
+    //         status: item.status
+    //     });
+
+    //     setItems([...newArray])
+    // }
 
     return(
         <div className="addForm">
