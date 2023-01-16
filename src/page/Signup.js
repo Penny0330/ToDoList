@@ -1,31 +1,15 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth } from '../firebase/firebase.config';
-import Navbar from './Navbar';
+import Navbar from '../component/Navbar';
+import { useSignup } from '../hook/useSignup';
 
-function Signup() {
-    const navigate = useNavigate();
-
+function Signup(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [message, setMessage] = useState("");
+    const { signup, error, pending } = useSignup();
 
-    const onSignup = async (e) => {
+    const onSignup = (e) => {
         e.preventDefault();
-
-        await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // const user = userCredential.user;
-            // console.log(user);
-            const successMessage = "Registration success!";
-            setMessage(successMessage);
-            navigate("/Login")
-        })
-        .catch((error) => {
-            const errorMessage = (error.message).split("/")[1].split(")")[0];
-            setMessage(errorMessage);
-        })
+        signup(email, password);
     }
 
     return (
@@ -54,9 +38,16 @@ function Signup() {
                     required />
             </div>
 
-            <button type="submit" className="enter_button">Signup</button>
+            {!pending && (
+                <button type="submit" className="enter_button">Signup</button>
+            )}
+            {pending && (
+                <button  className="enter_button">Loading...</button>
+            )}
+            
+            
 
-            <div className="message">{message}</div>
+            {error && <div className="message">{error}</div>}
         </form>
     </div>
     )

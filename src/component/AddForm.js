@@ -1,12 +1,28 @@
 import React, { useEffect, useState } from "react";
 import List from "./List";
 
-import firebase from "../firebase/firebase.config"
-import { collection, addDoc, getDocs, deleteDoc, doc} from "firebase/firestore"
+import { db, auth } from '../utils/firebase.config';
+import { collection, addDoc, deleteDoc, doc, query, onSnapshot, where} from "firebase/firestore";
+
+
 
 function AddForm(){
     const [newItem, setNewItem] = useState("");
     const [items, setItems] = useState([]);
+
+    // read
+    useEffect(() => {
+        const ref = collection(db, "todos");
+        const q = query(ref, where("author_uid", "==", auth.currentUser.uid));
+        const unsub = onSnapshot(q, (querySnapshot) => {
+            let todoArr = [];
+            querySnapshot.forEach((doc) => {
+                todoArr.push({ ...doc.data(), id: doc.id});
+            });
+            setItems(todoArr)
+        })
+        return () => unsub();
+    }, [])
 
     // write
     const addTodo = async (e) => {
@@ -15,57 +31,24 @@ function AddForm(){
         }
 
         const item = {
-            id: (Math.random()*1000000000).toString(36),
             value: newItem
         };
 
-        await addDoc(collection(firebase, "todos"), {
-            id: item.id,
-            value: item.value
+        await addDoc(collection(db, "todos"), {
+            value: item.value,
+            author_uid: auth.currentUser.uid
         });
-
-        setItems(oldList => [...oldList, item]);
 
         setNewItem("");
     }
 
-    // read
-    useEffect(()=>{
-        fetchPost();
-    }, [])
-    
-    const fetchPost = async () => {
-        await getDocs(collection(firebase, "todos"))
-            .then((querySnapshot)=>{
-                const newData = querySnapshot.docs.map((doc) => ({...doc.data(), id:doc.id}));
-                setItems(newData);
-            })
-    }
-
     // delete
     const deleteItem = async (id) => {
-        await deleteDoc(doc(firebase, "todos", id))
+        await deleteDoc(doc(db, "todos", id))
         const newArray = items.filter(item => item.id !== id);
         setItems(newArray);
     }
 
-    // const finishItem = async (id) => {
-    //     const newArray = items.map((item) => {
-    //         if(item.id === id){
-    //             console.log(item.id,"/", id, item.status)
-    //             item.status = !item.status
-    //         }
-    //         return item;
-    //     })
-
-    //     await addDoc(collection(firebase, "todos"), {
-    //         id: item.id,
-    //         value: item.value,
-    //         status: item.status
-    //     });
-
-    //     setItems([...newArray])
-    // }
 
     return(
         <div className="addForm">
@@ -78,9 +61,7 @@ function AddForm(){
 
             <button className="add_button" onClick={() => addTodo()}>Add</button>
 
-            {
-                <List items={items} deleteItem={deleteItem} />
-            }
+            <List items={items} deleteItem={deleteItem} />
         </div>
     )
 }

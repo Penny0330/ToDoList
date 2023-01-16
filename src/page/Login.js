@@ -1,30 +1,15 @@
 import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase/firebase.config';
-import { useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
+import Navbar from '../component/Navbar';
+import { useLogin } from '../hook/useLogin';
 
 function Login(){
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const { login, error, pending } = useLogin();
 
   const onLogin = (e) => {
-    e.preventDefault();
-
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // const user = userCredential.user;
-      navigate("/ListPage");
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = (error.message).split("/")[1].split(")")[0];
-      console.log(errorCode, errorMessage);
-      
-      setMessage(errorMessage);
-    })
+      e.preventDefault();
+      login(email, password);
   }
 
   return (
@@ -51,9 +36,14 @@ function Login(){
               required />
         </div>
 
-        <button type="submit" className="enter_button">Login</button>
+        {!pending && (
+                <button type="submit" className="enter_button login_button">Login</button>
+        )}
+        {pending && (
+            <button className="enter_button login_button">Loading ...</button>
+        )}
 
-        <div className="message">{message}</div>
+        {error && <div className="message">{error}</div>}
       </form>
     </div>
 
